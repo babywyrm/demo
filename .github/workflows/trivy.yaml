@@ -15,17 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js (if applicable)
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'  # Specify your Node.js version
-
-      # Step 3: Install Node.js dependencies
-      - name: Install dependencies
-        run: npm install
-
-      # Step 4: Install Trivy
+      # Step 2: Install Trivy
       - name: Install Trivy
         run: |
           sudo apt-get update
@@ -35,24 +25,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install trivy
 
-      # Step 5: Run Trivy scan on the repository, capturing all severities
+      # Step 3: Run Trivy scan on the repository, including all vulnerabilities
       - name: Run Trivy full scan (ALL severities)
-        id: trivy-scan
         run: |
-          trivy fs --exit-code 1 --severity LOW,MEDIUM,HIGH,CRITICAL --no-progress --output trivy-report.txt .
-          # Print the scan results to console
-          cat trivy-report.txt || echo "Trivy scan completed, but the report could not be displayed."
+          trivy fs --exit-code 0 --severity LOW,MEDIUM,HIGH,CRITICAL --no-progress .
 
-      # Step 6: Upload the Trivy scan results as an artifact
+      # Step 4: Upload the Trivy scan results as an artifact
       - name: Upload Trivy scan results
         uses: actions/upload-artifact@v3
         with:
           name: trivy-report
           path: trivy-report.txt
 
-      # Step 7: Fail the build if any HIGH or CRITICAL vulnerabilities are found
+      # Step 5: (Optional) Fail the build if any HIGH or CRITICAL vulnerabilities are found
       - name: Fail on HIGH or CRITICAL vulnerabilities
-        if: steps.trivy-scan.outcome == 'failure'
         run: |
-          echo "High or Critical vulnerabilities found. Failing the build."
+          trivy fs --exit-code 1 --severity HIGH,CRITICAL --no-progress .
 
