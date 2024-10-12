@@ -1,14 +1,21 @@
-name: Trivy Security Scan
+name: Advanced Trivy Security Scan
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
   trivy-scan:
     runs-on: ubuntu-latest
+
     steps:
+      # Step 1: Check out the repository code
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Install Trivy
       - name: Install Trivy
         run: |
           sudo apt-get update
@@ -18,12 +25,31 @@ jobs:
           sudo apt-get update
           sudo apt-get install trivy
 
-      - name: Run Trivy scan on the repository
-        run: trivy fs --exit-code 1 --severity HIGH,CRITICAL . 
+      # Step 3: Run Trivy file system scan and output results in SARIF format for uploading to GitHub
+      - name: Run Trivy file system scan (SARIF output)
+        run: |
+          trivy fs --exit-code 1 --severity HIGH,CRITICAL --format sarif --output trivy-results.sarif .
 
-      - name: Upload Trivy Scan Report
+      # Step 4: Run Trivy Docker image scan (if applicable)
+      # This step is optional. You can add a specific Docker image to scan.
+      - name: Run Trivy Docker image scan
+        run: |
+          trivy image --exit-code 1 --severity HIGH,CRITICAL my-docker-image:latest
+
+      # Step 5: Upload Trivy scan results as an artifact for later review
+      - name: Upload Trivy scan results
         uses: actions/upload-artifact@v3
         with:
           name: trivy-report
-          path: trivy-output.json
+          path: trivy-results.sarif
+
+      # Step 6: Fail the workflow if vulnerabilities are found
+      - name: Fail the build on vulnerabilities
+        run: |
+          if grep -q "CRITICAL" trivy-results.sarif; then
+            echo "Critical vulnerabilities found!";
+            exit 1;
+          else
+            echo "No critical vulnerabilities found!";
+          fi
 
