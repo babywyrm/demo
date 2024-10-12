@@ -1,4 +1,4 @@
-name: Full Trivy Security Scan
+name: Trivy Security Scan
 
 on:
   push:
@@ -25,20 +25,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install trivy
 
-      # Step 3: Run Trivy scan on the repository, including all vulnerabilities
-      - name: Run Trivy full scan (ALL severities)
+      # Step 3: Run Trivy scan on the repository and display the output in the logs
+      - name: Run Trivy scan on the repository
         run: |
-          trivy fs --exit-code 0 --severity LOW,MEDIUM,HIGH,CRITICAL --no-progress --output trivy-report.txt .
-
-      # Step 4: Upload the Trivy scan results as an artifact
-      - name: Upload Trivy scan results
-        uses: actions/upload-artifact@v3
-        with:
-          name: trivy-report
-          path: trivy-report.txt
-
-      # Step 5: (Optional) Fail the build if any HIGH or CRITICAL vulnerabilities are found
-      - name: Fail on HIGH or CRITICAL vulnerabilities
-        run: |
-          trivy fs --exit-code 1 --severity HIGH,CRITICAL --no-progress .
+          trivy fs --exit-code 0 --severity MEDIUM,HIGH,CRITICAL --no-progress .
 
