@@ -2,7 +2,7 @@
   "extends": ["config:base"],
   "docker": {
     "enabled": true
-  }
+  },
   "packageRules": [
     {
       "packagePatterns": ["*"],
@@ -11,3 +11,4 @@
   ],
   "autodiscover": true
 }
+
