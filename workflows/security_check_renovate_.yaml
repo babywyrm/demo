@@ -1,0 +1,78 @@
+name: Security Check Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security-check:
+    runs-on: self-hosted  # Assuming you're using self-hosted runners. Use 'ubuntu-latest' for GitHub-hosted.
+    
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Python environment
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
+        if [ -f "pyproject.toml" ]; then pip install poetry && poetry install; fi
+
+    - name: Run Python vulnerability scan (Safety)
+      run: |
+        pip install safety
+        safety check --full-report
+
+    # Step 3: Set up Node.js environment
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+
+    - name: Install npm dependencies
+      run: |
+        if [ -f "package-lock.json" ]; then npm ci; fi
+        if [ -f "yarn.lock" ]; then yarn install; fi
+
+    - name: Run npm audit
+      run: |
+        if [ -f "package.json" ]; then npm audit --json > npm-audit.json; fi
+
+    # Step 4: Set up Maven for Java dependencies
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+
+    - name: Run Maven dependency check
+      run: |
+        if [ -f "pom.xml" ]; then mvn dependency-check:aggregate; fi
+
+    # Step 5: Docker vulnerability scan (Trivy)
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y trivy
+
+    - name: Run Docker image scan
+      run: |
+        if [ -f "Dockerfile" ]; then trivy fs . --exit-code 0 --severity HIGH,CRITICAL; fi
+
+    # Step 6: Alert on vulnerabilities (Optional)
+    - name: Check for vulnerabilities
+      run: |
+        cat npm-audit.json | jq '.advisories | to_entries[] | select(.value.severity == "high" or .value.severity == "critical")'
+        safety check --full-report
+        trivy fs . --exit-code 1 --severity HIGH,CRITICAL
+
