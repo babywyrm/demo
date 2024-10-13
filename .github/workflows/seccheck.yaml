@@ -85,5 +85,6 @@ jobs:
       - name: Run Renovate Bot
         uses: renovatebot/github-action@v40.3.3
         with:
+          args: --autodiscover  # Add the autodiscover flag
           token: ${{ secrets.GITHUB_TOKEN }}
 
