@@ -1,5 +1,5 @@
 {
-  "extends": ["config:base"],
+  "extends": ["config:recommended"],
   "docker": {
     "enabled": true
   },
@@ -11,4 +11,3 @@
   ],
   "autodiscover": true
 }
-
