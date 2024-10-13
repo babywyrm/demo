@@ -1,3 +1,3 @@
 Flask==1.0  # Old version of Flask
-requests==2.20.0  # Old version of requests
+requests==2.32.2  # Old version of requests
 pandas==0.24.0  # Old version of pandas
