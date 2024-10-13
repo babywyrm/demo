@@ -7,17 +7,16 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
   security-check:
-    runs-on: ubuntu-latest  # Assuming you're using self-hosted runners. Use 'ubuntu-latest' for GitHub-hosted.
-    
+    runs-on: ubuntu-latest
+
     steps:
-    # Step 1: Checkout the code
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Set up Python environment
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -34,7 +33,6 @@ jobs:
         pip install safety
         safety check --full-report
 
-    # Step 3: Set up Node.js environment
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
@@ -49,7 +47,6 @@ jobs:
       run: |
         if [ -f "package.json" ]; then npm audit --json > npm-audit.json; fi
 
-    # Step 4: Set up Maven for Java dependencies
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
@@ -59,7 +56,6 @@ jobs:
       run: |
         if [ -f "pom.xml" ]; then mvn dependency-check:aggregate; fi
 
-    # Step 5: Docker vulnerability scan (Trivy)
     - name: Install Trivy
       run: |
         sudo apt-get update
@@ -69,7 +65,6 @@ jobs:
       run: |
         if [ -f "Dockerfile" ]; then trivy fs . --exit-code 0 --severity HIGH,CRITICAL; fi
 
-    # Step 6: Alert on vulnerabilities (Optional)
     - name: Check for vulnerabilities
       run: |
         cat npm-audit.json | jq '.advisories | to_entries[] | select(.value.severity == "high" or .value.severity == "critical")'
