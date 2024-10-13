@@ -33,7 +33,7 @@ jobs:
         run: |
           pip install safety
           safety check --full-report || true  # Prevent workflow from halting
-          
+
       # Step 3: Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -49,7 +49,7 @@ jobs:
         run: |
           if [ -f "package.json" ]; then npm audit --json > npm-audit.json || true; fi  # Prevent workflow from halting
 
-      # Step 4: Set up Ruby
+      # Step 4: Set up Ruby environment
       - name: Set up Ruby
         uses: actions/setup-ruby@v1
         with:
@@ -57,12 +57,14 @@ jobs:
 
       - name: Install Bundler and Audit
         run: |
-          gem install bundler
-          bundler install || true  # Prevent workflow from halting
-          bundle exec bundler-audit check --update || true  # Prevent workflow from halting
+          if [ -f "Gemfile" ]; then
+            gem install bundler
+            bundler install || true  # Prevent workflow from halting
+            bundle exec bundler-audit check --update || true  # Prevent workflow from halting
+          fi
 
-      # Step 5: Report vulnerabilities
-      - name: Check for vulnerabilities
+      # Step 5: Check for vulnerabilities and report
+      - name: Report vulnerabilities
         run: |
           echo "Checking for vulnerabilities..."
           if [ -f "npm-audit.json" ]; then
