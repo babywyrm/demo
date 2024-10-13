@@ -22,7 +22,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.1</version> <!-- Known vulnerability -->
+            <version>3.17.0</version> <!-- Known vulnerability -->
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
