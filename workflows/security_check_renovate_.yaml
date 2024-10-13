@@ -10,7 +10,7 @@ on:
 
 jobs:
   security-check:
-    runs-on: self-hosted  # Assuming you're using self-hosted runners. Use 'ubuntu-latest' for GitHub-hosted.
+    runs-on: ubuntu-latest  # Assuming you're using self-hosted runners. Use 'ubuntu-latest' for GitHub-hosted.
     
     steps:
     # Step 1: Checkout the code
