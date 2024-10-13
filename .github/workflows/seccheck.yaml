@@ -48,7 +48,7 @@ jobs:
 
       - name: Run npm audit
         run: |
-          if [ -f "package.json" ]; then npm audit --json > npm-audit.json; fi || true
+          if [ -f "package.json" ]; then npm audit --json > npm-audit.json || true; fi
         continue-on-error: true
 
       # Step 4: Set up Maven for Java dependencies
@@ -73,10 +73,23 @@ jobs:
           if [ -f "Dockerfile" ]; then trivy fs . --exit-code 0 --severity HIGH,CRITICAL || true; fi
         continue-on-error: true
 
-      # Step 6: Alert on vulnerabilities (Optional)
+      # Step 6: Ruby vulnerability check
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '3.x'  # Use the appropriate Ruby version
+
+      - name: Install Bundler and Audit
+        run: |
+          gem install bundler
+          bundler install || true
+          bundle exec bundler-audit check --update || true
+        continue-on-error: true
+
+      # Step 7: Alert on vulnerabilities (Optional)
       - name: Check for vulnerabilities
         run: |
-          if [ -f "npm-audit.json" ]; then cat npm-audit.json | jq '.advisories | to_entries[] | select(.value.severity == "high" or .value.severity == "critical")'; fi || true
+          if [ -f "npm-audit.json" ]; then cat npm-audit.json | jq '.advisories | to_entries[] | select(.value.severity == "high" or .value.severity == "critical")' || true; fi
           safety check --full-report || true
           trivy fs . --exit-code 1 --severity HIGH,CRITICAL || true
 
