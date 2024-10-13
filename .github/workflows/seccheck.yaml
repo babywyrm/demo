@@ -73,3 +73,17 @@ jobs:
           fi
           safety check --full-report || true
 
+  renovate:
+    runs-on: ubuntu-latest
+    needs: security-check
+    steps:
+      # Step 1: Checkout code for Renovate
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Run Renovate Bot
+      - name: Run Renovate Bot
+        uses: renovatebot/github-action@v40.3.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
