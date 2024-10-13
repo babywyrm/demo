@@ -32,8 +32,9 @@ jobs:
       - name: Run Python vulnerability scan (Safety)
         run: |
           pip install safety
-          safety check --full-report || true  # Prevent workflow from halting
-          
+          safety check --full-report || true
+        continue-on-error: true
+
       # Step 3: Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -47,9 +48,33 @@ jobs:
 
       - name: Run npm audit
         run: |
-          if [ -f "package.json" ]; then npm audit --json > npm-audit.json || true; fi  # Prevent workflow from halting
+          if [ -f "package.json" ]; then npm audit --json > npm-audit.json || true; fi
+        continue-on-error: true
 
-      # Step 4: Set up Ruby
+      # Step 4: Set up Java
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'  # Specify the distribution for Java
+
+      - name: Run Maven dependency check
+        run: |
+          if [ -f "pom.xml" ]; then mvn dependency-check:aggregate || true; fi
+        continue-on-error: true
+
+      # Step 5: Docker vulnerability scan (Trivy)
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+      - name: Run Docker image scan
+        run: |
+          if [ -f "Dockerfile" ]; then trivy fs . --exit-code 0 --severity HIGH,CRITICAL || true; fi
+        continue-on-error: true
+
+      # Step 6: Ruby vulnerability check
       - name: Set up Ruby
         uses: actions/setup-ruby@v1
         with:
@@ -58,16 +83,14 @@ jobs:
       - name: Install Bundler and Audit
         run: |
           gem install bundler
-          bundler install || true  # Prevent workflow from halting
-          bundle exec bundler-audit check --update || true  # Prevent workflow from halting
+          bundler install || true
+          bundle exec bundler-audit check --update || true
+        continue-on-error: true
 
-      # Step 5: Report vulnerabilities
+      # Step 7: Alert on vulnerabilities (Optional)
       - name: Check for vulnerabilities
         run: |
-          echo "Checking for vulnerabilities..."
-          if [ -f "npm-audit.json" ]; then
-            echo "NPM Audit Results:"
-            cat npm-audit.json | jq '.advisories | to_entries[] | select(.value.severity == "high" or .value.severity == "critical")' || true
-          fi
+          if [ -f "npm-audit.json" ]; then cat npm-audit.json | jq '.advisories | to_entries[] | select(.value.severity == "high" or .value.severity == "critical")' || true; fi
           safety check --full-report || true
+          trivy fs . --exit-code 1 --severity HIGH,CRITICAL || true
 
