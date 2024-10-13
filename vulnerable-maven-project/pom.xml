@@ -17,7 +17,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>4.3.22.RELEASE</version> <!-- Known vulnerability -->
+            <version>6.0.23</version> <!-- Known vulnerability -->
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
