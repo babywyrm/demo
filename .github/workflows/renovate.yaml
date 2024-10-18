@@ -14,7 +14,7 @@ jobs:
       # Update and install Node.js, Python, and Ruby
       - name: Set up environment
         run: |
-          apt-get update && apt-get install -y curl gnupg2 lsb-release ca-certificates
+          apt-get update && apt-get install -y git curl gnupg2 lsb-release ca-certificates
           
           # Install Node.js
           curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
