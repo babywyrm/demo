@@ -37,6 +37,6 @@ jobs:
       # Run Renovate with GitHub token
       - name: Run Renovate
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # The runner fetches this from Kubernetes secrets
+          RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # The runner fetches this from Kubernetes secrets
         run: renovate
 
