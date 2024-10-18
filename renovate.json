@@ -5,9 +5,19 @@
   },
   "packageRules": [
     {
-      "packagePatterns": ["*"],
+      "matchPackageNames": ["*"],
       "enabled": true
     }
   ],
-  "autodiscover": true
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/examples/**",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/tests/**",
+    "**/__fixtures__/**"
+  ]
 }
+

@@ -1,0 +1,13 @@
+{
+  "extends": ["config:recommended"],
+  "docker": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "packagePatterns": ["*"],
+      "enabled": true
+    }
+  ],
+  "autodiscover": true
+}
