@@ -37,6 +37,6 @@ jobs:
       # Run Renovate with GitHub token
       - name: Run Renovate
         env:
-          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}  # Pass the GitHub token
+          RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Pass the GitHub token
         run: renovate
 
