@@ -16,8 +16,8 @@ jobs:
         run: |
           apt-get update && apt-get install -y git curl gnupg2 lsb-release ca-certificates
           
-          # Install Node.js
-          curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+          # Install Node.js version 20.x
+          curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
           apt-get install -y nodejs
 
           # Install Python
@@ -37,6 +37,6 @@ jobs:
       # Run Renovate with GitHub token
       - name: Run Renovate
         env:
-          RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Pass the GitHub token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # The runner fetches this from Kubernetes secrets
         run: renovate
 
