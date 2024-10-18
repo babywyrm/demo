@@ -1,0 +1,21 @@
+name: Trigger Renovate
+
+on:
+  # Triggers manually via the GitHub Actions UI
+  workflow_dispatch:
+  
+  # Optionally, schedule Renovate to run periodically
+  schedule:
+    - cron: "0 0 * * *" # This will run every day at midnight UTC
+
+jobs:
+  renovate:
+    runs-on: self-hosted # This tells GitHub to run on your self-hosted runner
+    steps:
+      # Checkout the repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      # Trigger Renovate to process the repository
+      - name: Run Renovate
+        run: npx renovate
