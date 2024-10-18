@@ -20,7 +20,7 @@ jobs:
           apt-get install -y ruby-full
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Renovate
         run: npm install -g renovate
