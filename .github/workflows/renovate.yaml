@@ -29,5 +29,5 @@ jobs:
         env:
           RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LOG_LEVEL: debug
-        run: renovate --autodiscover=false --repositories babywyrm/demo 
-
+          RENOVATE_REPOSITORIES: "babywyrm/demo"  # Specify the repository
+        run: renovate --autodiscover=false
