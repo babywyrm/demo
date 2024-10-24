@@ -16,6 +16,7 @@ jobs:
         uses: renovatebot/github-action@v40.2.2  # Use the latest Renovate version
         with:
           token: ${{ secrets.GITHUB_TOKEN }}  # Provide your GitHub token
+          repositories: "babywyrm/demo"  # Specify the repository
           autodiscover: true  # Ensure autodiscover is enabled
         env:
           LOG_LEVEL: debug  # Set log level to debug for detailed logs
