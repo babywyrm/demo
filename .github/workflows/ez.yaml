@@ -7,7 +7,7 @@ on:
 
 jobs:
   renovate:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, hot-new-new]  # Use your custom runner label 'hot-new-new'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -17,5 +17,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}  # Provide your GitHub token
           repositories: babywyrm/demo  # Specify the repository
-        env:
-          LOG_LEVEL: debug
+
