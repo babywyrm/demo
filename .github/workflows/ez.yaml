@@ -12,7 +12,7 @@ on:
 
 jobs:
   renovate:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, hot-new-new]  # Use your custom runner label 'hot-new-new'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -27,4 +27,3 @@ jobs:
           RENOVATE_REPOSITORIES: "babywyrm/demo"  # Specify the repository
         with:
           args: "--autodiscover=false"
-
