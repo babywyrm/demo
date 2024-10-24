@@ -1,0 +1,21 @@
+name: Trigger Renovate
+
+on:
+  workflow_dispatch:  # Allows for manual trigger
+  schedule:
+    - cron: "0 0 * * *"  # Run daily at midnight
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run Renovate
+        uses: renovatebot/github-action@v39
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Provide your GitHub token
+          repositories: babywyrm/demo  # Specify the repository
+        env:
+          LOG_LEVEL: debug
