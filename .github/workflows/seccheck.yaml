@@ -83,7 +83,7 @@ jobs:
 
       # Step 2: Run Renovate Bot
       - name: Run Renovate Bot
-        uses: renovatebot/github-action@v40.3.3
+        uses: renovatebot/github-action@v40.3.5
         with:
           args: --autodiscover  # Add the autodiscover flag
           token: ${{ secrets.GITHUB_TOKEN }}
