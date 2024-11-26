@@ -2,7 +2,7 @@
   "extends": ["config:recommended"],
   "repositories": ["babywyrm/demo"],
   "autodiscover": true,
-  "forkProcessing": true,
+  "forkProcessing": "enabled",
   "packageRules": [
     {
       "matchPackageNames": ["*"],
