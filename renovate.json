@@ -2,14 +2,22 @@
   "extends": ["config:recommended"],
   "repositories": ["babywyrm/demo"],
   "autodiscover": true,
+  "forkProcessing": true,
   "packageRules": [
     {
       "matchPackageNames": ["*"],
       "enabled": true
     },
     {
-      "matchPackagePatterns": ["^python", "^npm", "^node", "^docker", "^maven", "^java"],
-      "enabled": true
+      "enabled": true,
+      "matchPackageNames": [
+        "/^python/",
+        "/^npm/",
+        "/^node/",
+        "/^docker/",
+        "/^maven/",
+        "/^java/"
+      ]
     }
   ],
   "ignorePaths": [
