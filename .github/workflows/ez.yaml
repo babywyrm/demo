@@ -8,11 +8,12 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight UTC
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
 
 jobs:
   renovate:
     runs-on: [self-hosted, hot-new-new]  # Use your custom runner label 'hot-new-new'
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -24,4 +25,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           configurationFile: ".github/renovate.json"
-          renovate-image: ghcr.io/renovatebot/renovate:39.30.0
+          renovate-image: ghcr.io/renovatebot/renovate:latest
+
