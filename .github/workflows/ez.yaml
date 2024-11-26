@@ -25,3 +25,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           configurationFile: "renovate.json"
+          logLevel: debug
