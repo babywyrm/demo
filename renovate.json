@@ -1,13 +1,14 @@
 {
   "extends": ["config:recommended"],
-  "docker": {
-    "enabled": true
-  },
   "repositories": ["babywyrm/demo"],
   "autodiscover": true,
   "packageRules": [
     {
       "matchPackageNames": ["*"],
+      "enabled": true
+    },
+    {
+      "matchPackagePatterns": ["^python", "^npm", "^node", "^docker", "^maven", "^java"],
       "enabled": true
     }
   ],
@@ -22,3 +23,4 @@
     "**/__fixtures__/**"
   ]
 }
+
