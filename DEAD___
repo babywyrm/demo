@@ -1,9 +1,0 @@
-{
-  "extends": ["config:base"],
-  "packageRules": [
-    {
-      "managers": ["pip_requirements"],
-      "enabled": true
-    }
-  ]
-}
