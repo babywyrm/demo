@@ -25,5 +25,3 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           configurationFile: ".github/renovate.json"
-          renovate-image: ghcr.io/renovatebot/renovate:latest
-
