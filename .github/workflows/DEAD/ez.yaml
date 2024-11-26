@@ -10,7 +10,7 @@ jobs:
     runs-on: [self-hosted, hot-new-new]  # Use your custom runner label 'hot-new-new'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.2.1  # Latest checkout version
+        uses: actions/checkout@v4.2.2  # Latest checkout version
 
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v40.2.2  # Use the latest Renovate version

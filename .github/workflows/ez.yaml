@@ -15,7 +15,7 @@ jobs:
     runs-on: [self-hosted, hot-new-new]  # Use your custom runner label 'hot-new-new'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
