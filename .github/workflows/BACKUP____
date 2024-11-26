@@ -20,9 +20,10 @@ jobs:
           fetch-depth: 0
 
       - name: Run Renovate
-        uses: renovatebot/github-action@v41.0.4
+        uses: renovatebot/github-action@v40.2.2
+        env:
+          RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LOG_LEVEL: debug
+          RENOVATE_REPOSITORIES: "babywyrm/demo"  # Specify the repository
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          log-level: debug
-          repositories: "babywyrm/demo"
           args: "--autodiscover=false"
