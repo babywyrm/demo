@@ -23,6 +23,4 @@ jobs:
         uses: renovatebot/github-action@v41.0.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          log-level: debug
-          repositories: "babywyrm/demo"
-          args: "--autodiscover=false"
+          configurationFile: ".github/renovate.json"
