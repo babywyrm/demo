@@ -1,4 +1,4 @@
 {
   "repositories": ["babywyrm/demo"],
-  "autodiscover": false
+  "autodiscover": true 
 }
