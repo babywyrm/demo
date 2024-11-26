@@ -13,7 +13,7 @@ on:
 jobs:
   renovate:
     runs-on: [self-hosted, hot-new-new]  # Use your custom runner label 'hot-new-new'
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -25,4 +25,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           configurationFile: "renovate.json"
-          extraArgs: "--log-level debug --autodiscover"
+          extraArgs: "--autodiscover"  # Enable autodiscovery of repositories
+        env:
+          RENOVATE_AUTODISCOVER: "true"  # Ensure the environment variable is set
+
