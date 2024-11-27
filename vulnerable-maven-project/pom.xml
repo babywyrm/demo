@@ -32,7 +32,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version> <!-- Known vulnerability -->
+            <version>2.18.0</version> <!-- Known vulnerability -->
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
