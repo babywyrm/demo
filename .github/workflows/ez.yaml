@@ -25,7 +25,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           configurationFile: "renovate.json"
-          extraArgs: "--autodiscover"  # Enable autodiscovery of repositories
+          extraArgs: "--autodiscover"
         env:
-          RENOVATE_AUTODISCOVER: "true"  # Ensure the environment variable is set
-
+          RENOVATE_AUTODISCOVER: "true"
