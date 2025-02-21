@@ -1,5 +1,5 @@
 # Use an outdated base image
-FROM node:15
+FROM node:22
 
 ##
 ##
